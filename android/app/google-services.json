@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "295763136647",
+    "project_id": "ghaithproject-c1558",
+    "storage_bucket": "ghaithproject-c1558.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295763136647:android:0600b842df983e0150e822",
+        "android_client_info": {
+          "package_name": "me.ae.ghaith_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "295763136647-9se2l12aaa6rjmnkhur5v5f48sapl55r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgZOgJexfvisA5NwR-GibqPpoLeFEmOtk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "295763136647-9se2l12aaa6rjmnkhur5v5f48sapl55r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
