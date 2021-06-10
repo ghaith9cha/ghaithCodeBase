@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:ghaith_project/app/data/Persons.dart';
 import 'package:ghaith_project/app/data/genres.dart';
@@ -6,9 +8,14 @@ import 'package:ghaith_project/app/data/movies.dart';
 import 'package:ghaith_project/app/repo/data_source/api_constant.dart';
 import 'package:ghaith_project/app/utility/network_conectivity.dart';
 import 'package:ghaith_project/main/main_controller.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeController extends GetxController {
+
   //TODO: Implement HomeController
+  // late final FacebookLogin facebookSignIn;
+
+  // String message = 'Log in/out by pressing the buttons below.';
 
   final MainController mainController = Get.find();
   final NetworkConnectivity networkConnectivity = Get.find();
@@ -33,6 +40,8 @@ class HomeController extends GetxController {
   void onInit() async {
     super.onInit();
 
+
+    // facebookSignIn = new FacebookLogin();
     paginateTask();
     await mainController.repo
         .getPersons("d81588933147f7ace69e1c44a5d3a0ad", "en-US")
@@ -133,7 +142,7 @@ class HomeController extends GetxController {
   void getMovieByGenre(int index) async {
     if (movieGenreMap[index] != null) {
       currentPage = index;
-    return;
+      return;
     } else {
       movieGenreState.value = 0;
 
@@ -144,7 +153,7 @@ class HomeController extends GetxController {
                 if (value?.status_code == 200 && value?.results != null)
                   {
                     movieGenreMap[index] = value!.results!,
-                    movieByGenre!.value = value!.results!,
+                    movieByGenre!.value = value.results!,
                     print(value.results),
                     movieGenreState.value = 200,
                   }
@@ -205,4 +214,37 @@ class HomeController extends GetxController {
                 }
             });
   }
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount googleUser = (await GoogleSignIn().signIn())!;
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+
+  Future<UserCredential?> signInWithFacebook() async {
+    final LoginResult result = await FacebookAuth.instance.login();
+    if(result.status == LoginStatus.success){
+      // Create a credential from the access token
+      final OAuthCredential credential = FacebookAuthProvider.credential(result.accessToken!.token);
+      // Once signed in, return the UserCredential
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    }
+    return null;
+  }
+
+
+
 }

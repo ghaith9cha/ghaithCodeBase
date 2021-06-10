@@ -5,6 +5,11 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
+//rootProject.ext {
+//    set('FlutterFire', [
+//            FirebaseSDKVersion: '25.12.0'
+//    ])
+//}
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
@@ -25,6 +30,7 @@ apply plugin: 'com.google.gms.google-services'  // Google Services plugin
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 30
@@ -40,13 +46,19 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
+
     }
 
     buildTypes {
+
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
+
+
+
         }
     }
 }

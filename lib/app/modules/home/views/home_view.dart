@@ -11,6 +11,12 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // if(controller.mainController.prefs.getString("locale")==null){
+    //   controller.mainController.prefs
+    //       .setString("language_code", "en");
+    //   controller.mainController.prefs
+    //       .setString("country_code", "US");
+    // }
     return Scaffold(
       backgroundColor: Colors.white10,
       appBar: AppBar(
@@ -245,16 +251,16 @@ class HomeView extends StatelessWidget {
                 );
               }
             }),
-            Obx(() {
-              return CarouselSlider(
-                items: generateSlider(),
-                options: CarouselOptions(
-                    autoPlay: true,
-                    aspectRatio: 2.0,
-                    enlargeCenterPage: true,
-                    enlargeStrategy: CenterPageEnlargeStrategy.height),
-              );
-            }),
+            // Obx(() {
+            //   return CarouselSlider(
+            //     items: generateSlider(),
+            //     options: CarouselOptions(
+            //         autoPlay: true,
+            //         aspectRatio: 2.0,
+            //         enlargeCenterPage: true,
+            //         enlargeStrategy: CenterPageEnlargeStrategy.height),
+            //   );
+            // }),
             Column(
               children: [
                 Text(
@@ -280,34 +286,55 @@ class HomeView extends StatelessWidget {
                 ),
               ],
             ),
-            Row(
+            // Row(
+            //   children: [
+            //     ElevatedButton(
+            //       onPressed: () {
+            //         controller.mainController.prefs
+            //             .setString("locale", "ar_EG");
+            //
+            //         Get.updateLocale(Locale("ar", "EG"));
+            //         controller.mainController.prefs
+            //             .setString("language_code", "ar");
+            //         controller.mainController.prefs
+            //             .setString("country_code", "EG");
+            //       },
+            //       child: Text("Arabic"),
+            //     ),
+            //     ElevatedButton(
+            //       onPressed: () {
+            //         controller.mainController.prefs
+            //             .setString("locale", "en_US");
+            //         controller.mainController.prefs
+            //             .setString("language_code", "en");
+            //         controller.mainController.prefs
+            //             .setString("country_code", "US");
+            //
+            //         Get.updateLocale(Locale("en", "US"));
+            //       },
+            //       child: Text("English"),
+            //     ),
+            //   ],
+            // ),
+            Column(
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    controller.mainController.prefs
-                        .setString("locale", "ar_EG");
-
-                    Get.updateLocale(Locale("ar", "EG"));
-                    controller.mainController.prefs
-                        .setString("language_code", "ar");
-                    controller.mainController.prefs
-                        .setString("country_code", "EG");
+                    controller.signInWithFacebook();
                   },
-                  child: Text("Arabic"),
+                  child: Text("Login with Facebook"),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    controller.mainController.prefs
-                        .setString("locale", "en_US");
-                    controller.mainController.prefs
-                        .setString("language_code", "en");
-                    controller.mainController.prefs
-                        .setString("country_code", "US");
-
-                    Get.updateLocale(Locale("en", "US"));
+                    controller.signInWithGoogle();
                   },
-                  child: Text("English"),
+                  child: Text("Login with Google"),
                 ),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.offNamed("/map");
+                    },
+                    child: Text("Go to map screen")),
               ],
             )
           ],
