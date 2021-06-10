@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:geocode/geocode.dart';
 import 'package:location/location.dart';
-import 'package:geocoder/geocoder.dart';
-import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Map extends StatefulWidget {
@@ -12,30 +10,42 @@ class Map extends StatefulWidget {
 }
 
 class _MapState extends State<Map> {
+  GeoCode geoCode = GeoCode();
+  bool isFirstTime = true;
+  late StreamSubscription<LocationData> locationSubscription;
   late LocationData _currentPosition;
-  late String _address = "", _dateTime = "";
   late GoogleMapController mapController;
   late Marker marker;
+  final myMarker = [];
   Location location = Location();
-
   late GoogleMapController _controller;
   LatLng _initialcameraposition = LatLng(0.5937, 0.9629);
 
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     getLoc();
+    super.initState();
   }
 
+  //Setup Map controller
   void _onMapCreated(GoogleMapController _cntlr) {
-    _controller = _controller;
-    location.onLocationChanged.listen((l) {
-      _controller.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 15),
-        ),
-      );
+    _controller = _cntlr;
+
+    //make Stream Subscription to zoom to the current location then dispose
+    locationSubscription = location.onLocationChanged.listen((l) {
+      if (isFirstTime == true) {
+        isFirstTime = false;
+        _initialcameraposition = LatLng(l.latitude!, l.longitude!);
+        print("TEST TEST ${l.longitude} : ${l.longitude}");
+        _controller.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 15),
+          ),
+        );
+      } else {
+        locationSubscription.cancel();
+      }
     });
   }
 
@@ -55,10 +65,13 @@ class _MapState extends State<Map> {
                     flex: 1,
                     child: GoogleMap(
                       initialCameraPosition: CameraPosition(
-                          target: _initialcameraposition, zoom: 15),
+                        target: _initialcameraposition,
+                      ),
                       mapType: MapType.normal,
                       onMapCreated: _onMapCreated,
                       myLocationEnabled: true,
+                      onTap: _handleTapped,
+                      markers: Set.from(myMarker),
                     ),
                   ),
                 ],
@@ -70,52 +83,65 @@ class _MapState extends State<Map> {
     );
   }
 
-  getLoc() async {
+  //Check Permission and Get the current location
+  Future<void> getLoc() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
-
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
+      //If denied ask for permission
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
+        //if permission denied do nothing
         return;
-      }
-    }
+      } else {
+        //if permission granted check the location if it is enabled or not
+        _serviceEnabled = await location.serviceEnabled();
+        if (!_serviceEnabled) {
+          _serviceEnabled = await location.requestService();
+          if (!_serviceEnabled) {
+            return;
+          }
+        }
 
-    _currentPosition = await location.getLocation();
-    _initialcameraposition =
-        LatLng(_currentPosition.latitude!, _currentPosition.longitude!);
-    location.onLocationChanged.listen((LocationData currentLocation) {
-      print("${currentLocation.longitude} : ${currentLocation.longitude}");
-      setState(() {
-        _currentPosition = currentLocation;
+        _currentPosition = await location.getLocation();
         _initialcameraposition =
             LatLng(_currentPosition.latitude!, _currentPosition.longitude!);
+      }
+    } else {
+      //if permission granted check the location if it is enabled or not
+      _serviceEnabled = await location.serviceEnabled();
+      if (!_serviceEnabled) {
+        _serviceEnabled = await location.requestService();
+        if (!_serviceEnabled) {
+          return;
+        }
+      }
 
-        DateTime now = DateTime.now();
-        _dateTime = DateFormat('EEE d MMM kk:mm:ss ').format(now);
-        _getAddress(_currentPosition.latitude!, _currentPosition.longitude!)
-            .then((value) {
-          setState(() {
-            _address = "${value.first.addressLine}";
-          });
-        });
-      });
-    });
+      _currentPosition = await location.getLocation();
+      _initialcameraposition =
+          LatLng(_currentPosition.latitude!, _currentPosition.longitude!);
+    }
   }
+//Set the marker on tab and change the location of the map
+  _handleTapped(LatLng tappedPoint) {
+    _controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(tappedPoint.latitude, tappedPoint.longitude), zoom: 15),
+      ),
+    );
 
-  Future<List<Address>> _getAddress(double lat, double lang) async {
-    final coordinates = new Coordinates(lat, lang);
-    List<Address> add =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    return add;
+    print("My tapped Point $tappedPoint");
+    setState(() {
+      _initialcameraposition =
+          LatLng(tappedPoint.latitude, tappedPoint.longitude);
+      myMarker.add(Marker(
+          onDragEnd: (dragEndPosition) {
+            print(dragEndPosition);
+          },
+          markerId: MarkerId(tappedPoint.toString()),
+          position: tappedPoint));
+    });
   }
 }

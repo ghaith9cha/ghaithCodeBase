@@ -30,7 +30,7 @@ dependencies:
   flutter_local_notifications: ^5.0.0+4
   google_maps_flutter: ^2.0.6
   location: ^4.2.3
-  geocoder: ^0.2.1
+  geocode: ^1.0.1
 
 
 

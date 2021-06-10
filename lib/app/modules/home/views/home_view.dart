@@ -332,7 +332,7 @@ class HomeView extends StatelessWidget {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      Get.offNamed("/map");
+                      Get.toNamed("/map");
                     },
                     child: Text("Go to map screen")),
               ],
