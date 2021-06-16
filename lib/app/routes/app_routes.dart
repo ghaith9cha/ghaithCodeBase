@@ -11,4 +11,6 @@ abstract class _Paths {
   static const HOME = '/home';
   static const SPLASH = "/splash";
   static const MAP = "/map";
+  static const DOWNLOADER = "/downloader";
+  static const CAMERA = "/camera";
 }

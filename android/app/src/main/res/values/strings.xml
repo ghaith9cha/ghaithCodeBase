@@ -3,4 +3,11 @@
     <string name="app_name">Ghaith CodeBase</string>
     <string name="facebook_app_id">2897568970481939</string>
     <string name="fb_login_protocol_scheme">fb2897568970481939</string>
+    <string name="flutter_downloader_notification_started">Download started</string>
+    <string name="flutter_downloader_notification_in_progress">Download in progress</string>
+    <string name="flutter_downloader_notification_canceled">Download canceled</string>
+    <string name="flutter_downloader_notification_failed">Download failed</string>
+    <string name="flutter_downloader_notification_complete">Download complete</string>
+    <string name="flutter_downloader_notification_paused">Download paused</string>
+
 </resources>

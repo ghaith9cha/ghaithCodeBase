@@ -9,6 +9,7 @@ import '../controllers/home_controller.dart';
 class HomeView extends StatelessWidget {
   HomeController controller = Get.put(HomeController());
 
+
   @override
   Widget build(BuildContext context) {
     // if(controller.mainController.prefs.getString("locale")==null){
@@ -286,36 +287,36 @@ class HomeView extends StatelessWidget {
                 ),
               ],
             ),
-            // Row(
-            //   children: [
-            //     ElevatedButton(
-            //       onPressed: () {
-            //         controller.mainController.prefs
-            //             .setString("locale", "ar_EG");
-            //
-            //         Get.updateLocale(Locale("ar", "EG"));
-            //         controller.mainController.prefs
-            //             .setString("language_code", "ar");
-            //         controller.mainController.prefs
-            //             .setString("country_code", "EG");
-            //       },
-            //       child: Text("Arabic"),
-            //     ),
-            //     ElevatedButton(
-            //       onPressed: () {
-            //         controller.mainController.prefs
-            //             .setString("locale", "en_US");
-            //         controller.mainController.prefs
-            //             .setString("language_code", "en");
-            //         controller.mainController.prefs
-            //             .setString("country_code", "US");
-            //
-            //         Get.updateLocale(Locale("en", "US"));
-            //       },
-            //       child: Text("English"),
-            //     ),
-            //   ],
-            // ),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    controller.mainController.prefs
+                        .setString("locale", "ar_EG");
+
+                    Get.updateLocale(Locale("ar", "EG"));
+                    controller.mainController.prefs
+                        .setString("language_code", "ar");
+                    controller.mainController.prefs
+                        .setString("country_code", "EG");
+                  },
+                  child: Text("Arabic"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    controller.mainController.prefs
+                        .setString("locale", "en_US");
+                    controller.mainController.prefs
+                        .setString("language_code", "en");
+                    controller.mainController.prefs
+                        .setString("country_code", "US");
+
+                    Get.updateLocale(Locale("en", "US"));
+                  },
+                  child: Text("English"),
+                ),
+              ],
+            ),
             Column(
               children: [
                 ElevatedButton(
@@ -335,6 +336,16 @@ class HomeView extends StatelessWidget {
                       Get.toNamed("/map");
                     },
                     child: Text("Go to map screen")),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed("/downloader");
+                    },
+                    child: Text("Go to Download Screen")),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed("/camera");
+                    },
+                    child: Text("Go to Camera")),
               ],
             )
           ],

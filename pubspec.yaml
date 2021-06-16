@@ -31,6 +31,14 @@ dependencies:
   google_maps_flutter: ^2.0.6
   location: ^4.2.3
   geocode: ^1.0.1
+  flutter_downloader: ^1.6.1
+  permission_handler: ^8.1.0
+  path_provider: ^2.0.2
+  image_picker: ^0.8.0+3
+  image_cropper: ^1.4.0
+  flutter_image_compress: ^1.0.0
+  image_gallery_saver: ^1.6.9
+
 
 
 

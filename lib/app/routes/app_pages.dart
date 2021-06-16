@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:ghaith_project/app/modules/camera/bindings/camera_binding.dart';
+import 'package:ghaith_project/app/modules/camera/views/camera_view.dart';
+import 'package:ghaith_project/app/modules/download_manager/views/downloader.dart';
 
 import 'package:ghaith_project/app/modules/home/bindings/home_binding.dart';
 import 'package:ghaith_project/app/modules/home/views/home_view.dart';
@@ -20,5 +23,7 @@ class AppPages {
     ),
     GetPage(name: _Paths.SPLASH, page: () => SplashView()),
     GetPage(name: _Paths.MAP, page: () => Map()),
+    GetPage(name: _Paths.DOWNLOADER, page: () => Downloader()),
+    GetPage(name: _Paths.CAMERA,page: ()=>CameraView(),binding: CameraBinding()),
   ];
 }
