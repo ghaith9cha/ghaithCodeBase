@@ -1,9 +1,127 @@
+// import 'dart:ui';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_downloader/flutter_downloader.dart';
+// import 'package:get/get.dart';
+// import 'package:ghaith_project/app/modules/download_manager/controllers/downloader_controller.dart';
+//
+// import 'donwload_item.dart';
+//
+// class Downloader extends GetView<DownloaderController> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return new Scaffold(
+//       appBar: new AppBar(
+//         title: new Text("Download Manager"),
+//       ),
+//       body: SingleChildScrollView(
+//         child: Container(
+//           width: MediaQuery.of(context).size.width,
+//           height: MediaQuery.of(context).size.height,
+//           child: Column(children: [
+//             Obx(() {
+//               if (controller.isLoading.value == true) {
+//                 return new Center(
+//                   child: new CircularProgressIndicator(),
+//                 );
+//               } else if (controller.permissionReady.value == true) {
+//                 return Expanded(
+//                   flex: 1,
+//                   child: buildDownloadList(),
+//                 );
+//               } else {
+//                 return Expanded(flex: 1, child: buildNoPermissionWarning());
+//               }
+//             }),
+//           ]),
+//         ),
+//       ),
+//     );
+//   }
+//
+//   Widget buildDownloadList() => Container(
+//         child: ListView(
+//           padding: const EdgeInsets.symmetric(vertical: 16.0),
+//           children: controller.items
+//               .map((item) => item.task == null
+//                   ? buildListSection(item.name!)
+//                   : DownloadItem(
+//                       data: item,
+//                       onItemClick: (task) {
+//                         controller.openDownloadedFile(task).then((success) {
+//                           if (!success) {
+//                             Get.snackbar(
+//                                 "Can\'t open the file", "Cannot open this file",
+//                                 duration: Duration(seconds: 2));
+//                           }
+//                         });
+//                       },
+//                       onActionClick: (task) {
+//                         if (task?.status == DownloadTaskStatus.undefined) {
+//                           controller.requestDownload(task!);
+//                         } else if (task!.status == DownloadTaskStatus.running) {
+//                           controller.pauseDownload(task);
+//                         } else if (task.status == DownloadTaskStatus.paused) {
+//                           controller.resumeDownload(task);
+//                         } else if (task.status == DownloadTaskStatus.complete) {
+//                           controller.delete(task);
+//                         } else if (task.status == DownloadTaskStatus.failed) {
+//                           controller.retryDownload(task);
+//                         }
+//                       },
+//                     ))
+//               .toList(),
+//         ),
+//       );
+//
+//   Widget buildListSection(String title) => Container(
+//         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+//         child: Text(
+//           title,
+//           style: TextStyle(
+//               fontWeight: FontWeight.bold, color: Colors.blue, fontSize: 18.0),
+//         ),
+//       );
+//
+//   Widget buildNoPermissionWarning() => Container(
+//         child: Center(
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             crossAxisAlignment: CrossAxisAlignment.center,
+//             children: [
+//               Padding(
+//                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
+//                 child: Text(
+//                   'Please grant accessing storage permission to continue -_-',
+//                   textAlign: TextAlign.center,
+//                   style: TextStyle(color: Colors.blueGrey, fontSize: 18.0),
+//                 ),
+//               ),
+//               SizedBox(
+//                 height: 32.0,
+//               ),
+//               ElevatedButton(
+//                   onPressed: () {
+//                     controller.retryRequestPermission();
+//                   },
+//                   child: Text(
+//                     'Retry',
+//                     style: TextStyle(
+//                         color: Colors.blue,
+//                         fontWeight: FontWeight.bold,
+//                         fontSize: 20.0),
+//                   ))
+//             ],
+//           ),
+//         ),
+//       );
+// }
+
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:ghaith_project/app/utility/main_drawer.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -163,6 +281,7 @@ class _MyDownloader extends State<MyDownloader> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      drawer: MainDrawer(),
       appBar: new AppBar(
         title: new Text(widget.title!),
       ),

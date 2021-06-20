@@ -4,7 +4,7 @@ part of 'app_pages.dart';
 abstract class Routes {
   Routes._();
 
-  static const HOME = _Paths.SPLASH;
+  static const FIRST_SCREEN = _Paths.SPLASH;
 }
 
 abstract class _Paths {
@@ -13,4 +13,5 @@ abstract class _Paths {
   static const MAP = "/map";
   static const DOWNLOADER = "/downloader";
   static const CAMERA = "/camera";
+  static const DASHBOARD = "/dashboard";
 }

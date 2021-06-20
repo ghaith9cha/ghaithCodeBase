@@ -4,19 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ghaith_project/app/modules/camera/controllers/camera_controller.dart';
+import 'package:ghaith_project/app/utility/main_drawer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class CameraView extends GetView<CameraController> {
-  var selectedImagePath = ''.obs;
-  var selectedImageSize = ''.obs;
-
-
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      drawer: MainDrawer(),
       appBar: AppBar(
         title: Text('Camera'),
         centerTitle: true,
@@ -29,9 +26,11 @@ class CameraView extends GetView<CameraController> {
             children: [
               Obx(
                 () => controller.compressImagePath.value == ''
-                    ? Text(
-                        'Select image from camera/galley',
-                        style: TextStyle(fontSize: 20),
+                    ? Center(
+                        child: Text(
+                          'Select image from camera/galley',
+                          style: TextStyle(fontSize: 20),
+                        ),
                       )
                     : Image.file(
                         File(controller.compressImagePath.value),
@@ -52,21 +51,32 @@ class CameraView extends GetView<CameraController> {
 
               //Crop
 
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   controller.getImage(ImageSource.camera);
                 },
                 child: Text("Camera"),
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   controller.getImage(ImageSource.gallery);
                 },
                 child: Text("Gallery"),
               ),
-              RaisedButton(
-                onPressed: () {
-                  controller.save();
+              ElevatedButton(
+                onPressed: () async {
+                  if (controller.status == PermissionStatus.denied) {
+                    await controller.rationale();
+                  }
+                  if (controller.status != PermissionStatus.denied) {
+                    controller.save();
+                  } else {
+                    Get.snackbar(
+                        "Permission Required",
+                        "Please Allow Storage Permission "
+                            "so you can save the Image to your gallery",
+                        duration: Duration(seconds: 2));
+                  }
                 },
                 child: Text("Save Image"),
               )
@@ -76,6 +86,4 @@ class CameraView extends GetView<CameraController> {
       ),
     );
   }
-
-
 }

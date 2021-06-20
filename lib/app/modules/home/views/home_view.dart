@@ -1,9 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ghaith_project/app/data/genres.dart';
-import 'package:ghaith_project/main.dart';
+import 'package:ghaith_project/app/utility/main_drawer.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends StatelessWidget {
@@ -19,6 +18,7 @@ class HomeView extends StatelessWidget {
     //       .setString("country_code", "US");
     // }
     return Scaffold(
+      drawer: MainDrawer(),
       backgroundColor: Colors.white10,
       appBar: AppBar(
         title: Text('Movie App'),
