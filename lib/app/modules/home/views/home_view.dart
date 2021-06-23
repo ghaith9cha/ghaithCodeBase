@@ -27,6 +27,9 @@ class HomeView extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+
+
+
             Obx(() {
               if (controller.personsState == 200) {
                 return Container(

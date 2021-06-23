@@ -4,6 +4,7 @@ import 'package:geocode/geocode.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:flutter_config/flutter_config.dart';
 
 class MapController extends GetxController {
   GeoCode geoCode = GeoCode();
@@ -16,11 +17,18 @@ class MapController extends GetxController {
   Location location = Location();
   Rx<bool> didChange = true.obs;
   Rx<LatLng> initialCameraPosition = Rx<LatLng>(LatLng(0.5937, 0.9629)).obs();
+  late final String? isEnvExist;
 
   @override
-  void onInit() {
-    getLoc();
-    super.onInit();
+  Future<void> onInit() async {
+    isEnvExist = await FlutterConfig.get('GMP_KEY');
+    print("THIS IS BULLSHIT$isEnvExist");
+    if (isEnvExist == null) {
+      return super.onInit();
+    } else {
+      getLoc();
+      super.onInit();
+    }
   }
 
   //Check Permission and Get the current location

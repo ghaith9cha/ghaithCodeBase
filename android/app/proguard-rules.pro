@@ -1,0 +1,1 @@
+-keep class me.ae.ghaith_project.BuildConfig { *; }

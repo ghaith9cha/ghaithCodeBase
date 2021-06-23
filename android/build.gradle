@@ -3,6 +3,9 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
 
     dependencies {
@@ -10,7 +13,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.8'  // Google Services plugin
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.1'
-
+        classpath 'com.google:plugin:0.6.1'
 
 
     }

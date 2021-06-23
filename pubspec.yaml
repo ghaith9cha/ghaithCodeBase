@@ -48,7 +48,8 @@ dependencies:
   flutter: 
     sdk: flutter
 
-dev_dependencies: 
+dev_dependencies:
+  flutter_config: ^2.0.0
   flutter_test: 
     sdk: flutter
   retrofit_generator: ^2.0.0
