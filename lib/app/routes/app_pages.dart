@@ -9,6 +9,8 @@ import 'package:ghaith_project/app/modules/home/views/home_view.dart';
 import 'package:ghaith_project/app/modules/map/bindings/map_binding.dart';
 import 'package:ghaith_project/app/modules/map/views/map_view.dart';
 import 'package:ghaith_project/app/modules/splash/views/splash_view.dart';
+import 'package:ghaith_project/app/modules/walk_through/binding/walk_through_binidng.dart';
+import 'package:ghaith_project/app/modules/walk_through/views/walk_through_view.dart';
 
 part 'app_routes.dart';
 
@@ -37,6 +39,11 @@ class AppPages {
       name: _Paths.DASHBOARD,
       page: () => DashboardView(),
       binding: DashboardBinding(),
+    ),
+    GetPage(
+      name: _Paths.WALK_THROUGH,
+      page: () => WalkThroughView(),
+      binding: WalkThroughBinding(),
     ),
   ];
 }

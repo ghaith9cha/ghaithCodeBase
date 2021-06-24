@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ghaith_project/app/data/genres.dart';
@@ -7,7 +8,6 @@ import '../controllers/home_controller.dart';
 
 class HomeView extends StatelessWidget {
   HomeController controller = Get.put(HomeController());
-
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +27,6 @@ class HomeView extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-
-
-
             Obx(() {
               if (controller.personsState == 200) {
                 return Container(
@@ -255,16 +252,25 @@ class HomeView extends StatelessWidget {
                 );
               }
             }),
-            // Obx(() {
-            //   return CarouselSlider(
-            //     items: generateSlider(),
-            //     options: CarouselOptions(
-            //         autoPlay: true,
-            //         aspectRatio: 2.0,
-            //         enlargeCenterPage: true,
-            //         enlargeStrategy: CenterPageEnlargeStrategy.height),
-            //   );
-            // }),
+            Obx(() {
+              if (controller.movieGenreState.value == 200) {
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height*0.7,
+                  child: CarouselSlider(
+                    items: generateSlider(),
+                    options: CarouselOptions(
+                        autoPlay: true,
+                        height: MediaQuery.of(context).size.height*0.5,
+                        aspectRatio: 2.0,
+                        enlargeCenterPage: true,
+                        enlargeStrategy: CenterPageEnlargeStrategy.height),
+                  ),
+                );
+              } else {
+                return Text("NO CONENT");
+              }
+            }),
             Column(
               children: [
                 Text(
@@ -358,27 +364,28 @@ class HomeView extends StatelessWidget {
   }
 
   List<Widget> generateSlider() {
-    return controller.movieGenreMap[36]!.map((item) {
-      return Container(
-        child: Container(
-          margin: EdgeInsets.all(5),
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            child: CachedNetworkImage(
-              imageUrl: "https://image.tmdb.org/t/p/w200${item!.poster_path}",
-              fit: BoxFit.cover,
-              width: Get.width,
-              placeholder: (context, url) => Container(
-                color: Colors.grey,
-              ),
-              errorWidget: (context, url, error) => Icon(
-                Icons.error,
-                color: Colors.red,
+      return controller.movieGenreMap[36]!.map((item) {
+        return Container(
+          child: Container(
+            margin: EdgeInsets.all(5),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(0)),
+              child: CachedNetworkImage(
+                imageUrl: "https://image.tmdb.org/t/p/w200${item!.poster_path}",
+                fit: BoxFit.fitHeight,
+                width: Get.width,
+                height: Get.height,
+                placeholder: (context, url) => Container(
+                  color: Colors.grey,
+                ),
+                errorWidget: (context, url, error) => Icon(
+                  Icons.error,
+                  color: Colors.red,
+                ),
               ),
             ),
           ),
-        ),
-      );
-    }).toList();
+        );
+      }).toList();
+    }
   }
-}

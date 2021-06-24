@@ -7,7 +7,7 @@ import 'package:get/get_state_manager/src/simple/get_view.dart';
 class SplashView extends GetView {
   @override
   Widget build(BuildContext context) {
-    Timer(Duration(seconds: 3), () => Get.offNamed("/dashboard"));
+    Timer(Duration(seconds: 3), () => Get.offNamed("/walk_through"));
 
     return Scaffold(
       backgroundColor: Colors.blueGrey,
