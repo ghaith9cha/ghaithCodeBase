@@ -59,7 +59,7 @@ class WalkThroughView extends StatelessWidget {
                 }),
                 ElevatedButton(
                   onPressed: () {
-                    Get.toNamed("/home");
+                    Get.toNamed("/dashboard");
                   },
                   child: Text("Go to Home screen"),
                 ),
