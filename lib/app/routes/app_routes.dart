@@ -15,4 +15,5 @@ abstract class _Paths {
   static const CAMERA = "/camera";
   static const DASHBOARD = "/dashboard";
   static const WALK_THROUGH="/walk_through";
+  static const MOVIE="/movie";
 }

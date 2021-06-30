@@ -14,6 +14,10 @@ class WalkThroughController extends GetxController {
   void onInit() {
     // TODO: implement onInit
 
+
+
     super.onInit();
   }
+
+
 }

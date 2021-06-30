@@ -1,4 +1,10 @@
 
 linter:
   rules:
-    
+    #include the rules we want our ide to see and then implement then in errors sections
+    - parameter_assignments
+
+analyzer:
+  errors:
+    #put what should the ide give we have Info error ignore and warning
+    parameter_assignments: error

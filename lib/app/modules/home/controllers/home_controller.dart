@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:ghaith_project/app/data/Persons.dart';
 import 'package:ghaith_project/app/data/genres.dart';
 import 'package:ghaith_project/app/data/movies.dart';
-import 'package:ghaith_project/app/repo/data_source/api_constant.dart';
 import 'package:ghaith_project/app/utility/network_conectivity.dart';
 import 'package:ghaith_project/main/main_controller.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -181,7 +180,7 @@ class HomeController extends GetxController {
     });
   }
 
-  getMoreTask(int page) async {
+  getMoreTask(int page1) async {
     topMoviesState.value = 0;
     isMoreDataAvailable.value = 0;
     await mainController.repo

@@ -38,6 +38,7 @@ dependencies:
   image_cropper: ^1.4.0
   flutter_image_compress: ^1.0.0
   image_gallery_saver: ^1.6.9
+  flutter_rating_bar: ^4.0.0
 
 
 
@@ -54,6 +55,8 @@ dev_dependencies:
     sdk: flutter
   retrofit_generator: ^2.0.0
   build_runner: ^2.0.3
+  flutter_lints: ^1.0.3
+
 
 
 

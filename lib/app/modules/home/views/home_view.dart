@@ -130,9 +130,37 @@ class HomeView extends StatelessWidget {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                Image(
-                                                    image: NetworkImage(
-                                                        "https://image.tmdb.org/t/p/w200${controller.movieGenreMap[controller.currentPage]![index]!.poster_path}"))
+                                                InkWell(
+                                                  onTap: () {
+                                                    Get.toNamed("/movie",
+                                                        arguments: controller.movieGenreMap[controller.currentPage]![index]!);
+                                                  },
+                                                  child: Hero(
+                                                    flightShuttleBuilder: (
+                                                      BuildContext
+                                                          flightContext,
+                                                      Animation<double>
+                                                          animation,
+                                                      HeroFlightDirection
+                                                          flightDirection,
+                                                      BuildContext
+                                                          fromHeroContext,
+                                                      BuildContext
+                                                          toHeroContext,
+                                                    ) {
+                                                      return RefreshProgressIndicator();
+                                                    },
+                                                    tag: controller
+                                                        .movieGenreMap[
+                                                            controller
+                                                                .currentPage]![
+                                                            index]!
+                                                        .id!,
+                                                    child: Image(
+                                                        image: NetworkImage(
+                                                            "https://image.tmdb.org/t/p/w200${controller.movieGenreMap[controller.currentPage]![index]!.poster_path}")),
+                                                  ),
+                                                )
                                               ],
                                             );
                                           },
@@ -215,9 +243,28 @@ class HomeView extends StatelessWidget {
                           padding: EdgeInsets.fromLTRB(20, 0, 5, 20),
                           child: Column(
                             children: [
-                              Image(
-                                image: NetworkImage(
-                                  "https://image.tmdb.org/t/p/w200${controller.topMovies![index]!.poster_path}",
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed("/movie",
+                                      arguments: controller.topMovies![index]);
+                                },
+                                child: Hero(
+                                  flightShuttleBuilder: (
+                                    BuildContext flightContext,
+                                    Animation<double> animation,
+                                    HeroFlightDirection flightDirection,
+                                    BuildContext fromHeroContext,
+                                    BuildContext toHeroContext,
+                                  ) {
+                                    return RefreshProgressIndicator();
+                                  },
+                                  tag: controller.topMovies![index]!.id
+                                      .toString(),
+                                  child: Image(
+                                    image: NetworkImage(
+                                      "https://image.tmdb.org/t/p/w200${controller.topMovies![index]!.poster_path}",
+                                    ),
+                                  ),
                                 ),
                               ),
                               new Padding(
@@ -256,12 +303,12 @@ class HomeView extends StatelessWidget {
               if (controller.movieGenreState.value == 200) {
                 return Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height*0.7,
+                  height: MediaQuery.of(context).size.height * 0.7,
                   child: CarouselSlider(
                     items: generateSlider(),
                     options: CarouselOptions(
                         autoPlay: true,
-                        height: MediaQuery.of(context).size.height*0.5,
+                        height: MediaQuery.of(context).size.height * 0.5,
                         aspectRatio: 2.0,
                         enlargeCenterPage: true,
                         enlargeStrategy: CenterPageEnlargeStrategy.height),
@@ -364,28 +411,46 @@ class HomeView extends StatelessWidget {
   }
 
   List<Widget> generateSlider() {
-      return controller.movieGenreMap[36]!.map((item) {
-        return Container(
-          child: Container(
-            margin: EdgeInsets.all(5),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(0)),
-              child: CachedNetworkImage(
-                imageUrl: "https://image.tmdb.org/t/p/w200${item!.poster_path}",
-                fit: BoxFit.fitHeight,
-                width: Get.width,
-                height: Get.height,
-                placeholder: (context, url) => Container(
-                  color: Colors.grey,
-                ),
-                errorWidget: (context, url, error) => Icon(
-                  Icons.error,
-                  color: Colors.red,
+    return controller.movieGenreMap[36]!.map((item) {
+      return Container(
+        child: Container(
+          margin: EdgeInsets.all(5),
+          child: InkWell(
+            onTap: () {
+              Get.toNamed("/movie", arguments: item);
+            },
+            child: Hero(
+              flightShuttleBuilder: (
+                BuildContext flightContext,
+                Animation<double> animation,
+                HeroFlightDirection flightDirection,
+                BuildContext fromHeroContext,
+                BuildContext toHeroContext,
+              ) {
+                return RefreshProgressIndicator();
+              },
+              tag: item!.id!,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(0)),
+                child: CachedNetworkImage(
+                  imageUrl:
+                      "https://image.tmdb.org/t/p/w200${item.poster_path}",
+                  fit: BoxFit.fitHeight,
+                  width: Get.width,
+                  height: Get.height,
+                  placeholder: (context, url) => Container(
+                    color: Colors.grey,
+                  ),
+                  errorWidget: (context, url, error) => Icon(
+                    Icons.error,
+                    color: Colors.red,
+                  ),
                 ),
               ),
             ),
           ),
-        );
-      }).toList();
-    }
+        ),
+      );
+    }).toList();
   }
+}

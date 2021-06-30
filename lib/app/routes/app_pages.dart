@@ -8,6 +8,7 @@ import 'package:ghaith_project/app/modules/home/bindings/home_binding.dart';
 import 'package:ghaith_project/app/modules/home/views/home_view.dart';
 import 'package:ghaith_project/app/modules/map/bindings/map_binding.dart';
 import 'package:ghaith_project/app/modules/map/views/map_view.dart';
+import 'package:ghaith_project/app/modules/movie/views/movie_view.dart';
 import 'package:ghaith_project/app/modules/splash/views/splash_view.dart';
 import 'package:ghaith_project/app/modules/walk_through/binding/walk_through_binidng.dart';
 import 'package:ghaith_project/app/modules/walk_through/views/walk_through_view.dart';
@@ -44,6 +45,10 @@ class AppPages {
       name: _Paths.WALK_THROUGH,
       page: () => WalkThroughView(),
       binding: WalkThroughBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVIE,
+      page: () => MovieView(),
     ),
   ];
 }
